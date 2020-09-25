@@ -1,7 +1,7 @@
 # file-sorter #
  Program with a gui which allows you to sort a chosen folder by file type or by date into automatically generated folders, and then also undo the folders if necessary.
 
-##What I learned
+## What I learned
 *File i/o
 *Building GUI's using tkinter
 *Error handling
@@ -15,7 +15,7 @@
     *In your terminal, navigate to the cloned directory and run: pip install -r requirements.txt
 4. To run the actual program, navigate further into the file-sorter folder and run: python3 main.py
 
-##Usage
+## Usage
 1. Select which folder you would like sorted (or unsorted if it is already sorted). To do this, click on Select a folder to open a filedialog menu.
 2. Select a sort type by clicking on the sort type dropdown.
     * File Type sorts files into folders based on their file types i.e. all image files into one folder, executables into another etc.
