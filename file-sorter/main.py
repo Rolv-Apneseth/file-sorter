@@ -7,7 +7,7 @@ from assets.sorter_script import *
 # DEFAULTS
 sort_type = "file type"
 # folder to be sorted
-sorted_folder = "./"
+sorted_folder = ""
 # folders files will be sorted into
 folders = ["Set-up or Program Files",
            "Compressed Archives", "Images", "Text Files", "Other"]
@@ -40,7 +40,7 @@ def choose_folder(event):
 
     sorter.select_folder()
     sort4["text"] = sorter.sorted_folder
-    if sorter.sorted_folder == "./":
+    if sorter.sorted_folder == "":
         sort4["text"] = "Warning! Please select folder."
 
 
@@ -109,7 +109,7 @@ choose_sort_label.place(relwidth=0.2, relheight=0.1, relx=0.025, rely=0.15)
 sort3 = tk.Label(frame1, text="Folder to be sorted:", font=label_font)
 sort3.place(relwidth=0.35, relheight=0.1, relx=0.025, rely=0.025)
 
-sort4 = tk.Label(frame1, text="Containing folder (Default)",
+sort4 = tk.Label(frame1, text="Select a folder",
                  font=small_font, cursor=cursor)
 sort4.place(relwidth=0.6, relheight=0.1, relx=0.375, rely=0.025)
 sort4.bind("<Button-1>", choose_folder)
