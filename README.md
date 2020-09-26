@@ -9,7 +9,7 @@
 * Combined use of the datetime and os modules for sorting files based on the time since it was modified
 
 ## Installation
-1. Requires python 3 to run. Python can be installed from [here](https://www.python.org/downloads/)
+1. Requires python 3.6+ to run. Python can be installed from [here](https://www.python.org/downloads/)
 2. Clone the repository by opening your command line/terminal and run: git clone https://github.com/Rolv-Apneseth/file-sorter.git
 3. Install the requirements for the program.
     * In your terminal, navigate to the cloned directory and run: pip install -r requirements.txt
