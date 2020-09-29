@@ -10,11 +10,12 @@
 
 ## Installation
 1. Requires python 3.6+ to run. Python can be installed from [here](https://www.python.org/downloads/)
-2. Clone the repository by opening your command line/terminal and run: git clone https://github.com/Rolv-Apneseth/file-sorter.git
+2. Clone the repository by opening your command line/terminal and run: 
+```git clone https://github.com/Rolv-Apneseth/file-sorter.git```
     * Note: if you don't have git, it can be downloaded from [here](https://git-scm.com/downloads).
 3. Install the requirements for the program.
-    * In your terminal, navigate to the cloned directory and run: pip install -r requirements.txt
-4. To run the actual program, navigate further into the file-sorter folder and run: python3 main.py
+    * In your terminal, navigate to the cloned directory and run: ```pip install -r requirements.txt```
+4. To run the actual program, navigate further into the file-sorter folder and run: ```python3 main.py```
 
 ## Usage
 1. Select which folder you would like sorted (or unsorted if it is already sorted). To do this, click on Select a folder to open a filedialog menu.
