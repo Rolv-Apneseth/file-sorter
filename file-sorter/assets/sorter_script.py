@@ -9,7 +9,7 @@ from tkinter import ttk, filedialog
 ############################################################
 class Sorter(object):
     """Contains functions for making sort folders and sorting files into those folders. Class variables are used by these functions."""
-    def __init(self):
+    def __init__(self):
         # DEFAULTS AND CONSTANTS
         self.sort_type = "file type"
         # folder to be sorted
@@ -207,7 +207,7 @@ class Sorter(object):
 class Remover(object):
     """Contains functions for undoing actions from Sorter class"""
 
-    def init(self):
+    def __init__(self):
         # same as from Sorter class
         self.MONTHS = ["(1) Jan", "(2) Feb", "(3) Mar", "(4) Apr", "(5) May", "(6) Jun", "(7) Jul", "(8) Aug", "(9) Sep", "(10) Oct", "(11) Nov", "(12) Dec"]
 
