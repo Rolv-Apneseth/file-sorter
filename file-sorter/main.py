@@ -2,29 +2,15 @@ import os
 import tkinter as tk
 
 from tkinter import ttk
-from assets.sorter_script import *
-
-# DEFAULTS
-sort_type = "file type"
-# folder to be sorted
-sorted_folder = ""
-# folders files will be sorted into
-folders = ["Set-up or Program Files",
-           "Compressed Archives", "Images", "Text Files", "Other"]
-# Folders that will be emptied
-to_empty = folders
-# Earliest year if date sort type is used
-earliest = 2020
+from assets.sorter_script import Sorter, Remover
 
 # INITIALISING CLASSES
 sorter = Sorter()
 remover = Remover()
 
-
 # BUTTON FUNCTIONS
 def choose_sort_type(event):
-    """
-    Sets sort type and runs date_year_selection.
+    """Sets sort type and runs date_year_selection.
 
     Replaces select_sort_type from Sorter class, as this program uses a dropdown menu instead.
     """
