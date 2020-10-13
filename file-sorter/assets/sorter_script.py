@@ -18,8 +18,9 @@ class Sorter(object):
         self.folders = ["Set-up or Program Files", "Compressed Archives", "Images", "Text Files", "Other"]
         # Current date
         self.today = datetime.today()
-        # current year
-        self.year = today.year
+        # current year, and earliest year for sort (can be changed)
+        self.YEAR = self.today.year
+        self.earliest = self.today.year
         # folder names in each year folder
         self.MONTHS = ["(1) Jan", "(2) Feb", "(3) Mar", "(4) Apr", "(5) May", "(6) Jun", "(7) Jul", "(8) Aug", "(9) Sep", "(10) Oct", "(11) Nov", "(12) Dec"]
 
@@ -42,10 +43,9 @@ class Sorter(object):
 
             try:
                 year = int(year)
-                today = datetime.today()
-                if year > int(today.year) or year < 1900:
+                if year > int(self.YEAR) or year < 1920:
                     raise Exception
-                self.year = year
+                self.earliest = year
                 date_pop_up.destroy()
                 self.wait_for_me = False
 
@@ -114,15 +114,14 @@ class Sorter(object):
     def make_date_folders(self):
         """Checks that folders for years and folders for months in each year exist and sets self.folders to years between earliest and current year"""
 
-        years = list(range(int(self.year), int(self.year) + 1))
-        # make years into strings to be used in file paths
-        self.folders = [str(year) for year in years]
+        self.folders = [str(year) for year in range(int(self.earliest), int(self.YEAR) + 1)]
+
         # makes year folders
-        self.check_folders(years)
-        for y in years:
+        self.check_folders(self.folders)
+        for year in self.folders:
             # makes month folders
             for month in self.MONTHS:
-                y_path = "".join([self.sorted_folder, str(y), "/", month])
+                y_path = "".join([self.sorted_folder, year, "/", month])
                 if not os.path.exists(y_path):
                      os.mkdir(y_path)
 
@@ -137,6 +136,9 @@ class Sorter(object):
     def sort_to_folder_by_date(self):
         """Sorts files into respective year/month folders by looking at the last modification date of each file, if sort type == date"""
 
+        # Used so folder names for each month are '(1) Jan', '(2) Feb' etc.
+        months = {"Jan": "(1)", "Feb": "(2)", "Mar": "(3)", "Apr": "(4)", "May": "(5)", "Jun": "(6)", "Jul": "(7)", "Aug": "(8)", "Sep": "(9)", "Oct": "(10)", "Nov": "(11)", "Dec": "(12)"}
+
         for filename in os.listdir(self.sorted_folder):
             if not filename in self.folders:
                 old_path = "".join([self.sorted_folder, filename])
@@ -144,9 +146,14 @@ class Sorter(object):
                 mod_time = os.path.getmtime(old_path)
                 local_time = time.ctime(mod_time)
                 lst = local_time.split()
+
+                # If a year folder for the file does not exist, skip this file
+                if int(lst[4]) < int(self.earliest):
+                    print(f"{filename} was last modified in {str(lst[4])} and a folder for that year does not exist, so the file was skipped during the sort")
+                    continue
+                
                 month = str(lst[1])
-                months = {"Jan": "(1)", "Feb": "(2)", "Mar": "(3)", "Apr": "(4)", "May": "(5)", "Jun": "(6)", "Jul": "(7)", "Aug": "(8)", "Sep": ("9"), "Oct": "(10)", "Nov": "(11)", "Dec": "(12)"}
-                new_path = f"{self.sorted_folder}{str(lst[4])}/{months[month]} {month}/{filename}"
+                new_path = f'{self.sorted_folder}{str(lst[4])}/{months[month]} {month}/{filename}' 
                 # try block so program doesn't stop if file already exists in directory. Exising file is replaced by file being moved
                 try:
                     os.rename(old_path, new_path)
