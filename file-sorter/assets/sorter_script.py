@@ -1,16 +1,15 @@
 import os
+import shutil
 import time
 import tkinter as tk
 from datetime import datetime
 from tkinter import filedialog, ttk
 
-############################################################
-###SORTER###################################################
-############################################################
 
+# SORTER ---------------------------------------------------------------------------------------
 
 class Sorter(object):
-    """Contains functions for making sort folders and sorting files into those folders. Class variables are used by these functions."""
+    """Contains functions for generating sort folders and sorting files into those folders."""
 
     def __init__(self):
         # DEFAULTS AND CONSTANTS
@@ -30,7 +29,8 @@ class Sorter(object):
         # current year, and earliest year for sort (can be changed)
         self.YEAR = self.today.year
         self.earliest = self.today.year
-        # folder names in each year folder
+
+        # folder names to be contained in each year folder
         self.MONTHS = [
             "(1) Jan",
             "(2) Feb",
@@ -194,6 +194,7 @@ class Sorter(object):
         }
 
         for filename in os.listdir(self.sorted_folder):
+            # So as to not move any of the auto generated folders
             if not filename in self.folders:
                 old_path = "".join([self.sorted_folder, filename])
                 # finding date of last modification for each file
@@ -210,17 +211,14 @@ class Sorter(object):
 
                 month = str(lst[1])
                 new_path = f"{self.sorted_folder}{str(lst[4])}/{months[month]} {month}/{filename}"
-                # try block so program doesn't stop if file already exists in directory. Exising file is replaced by file being moved
-                try:
-                    os.rename(old_path, new_path)
-                except FileExistsError:
-                    os.remove(new_path)
-                    os.rename(old_path, new_path)
 
-    # insert elif statement above else statement if adding a folder to the list folders
+                shutil.move(old_path, new_path)
 
     def assign_folder_by_file_type(self, filename, folders):
         """returns folder name based on file name extension i.e. .exe"""
+
+        # Insert elif statement above else statement if you added
+        # a folder to the list self.folders
 
         if filename.lower().endswith((".exe", ".app", ".dmg")):
             return folders[0]
@@ -244,17 +242,13 @@ class Sorter(object):
                 new_path = "".join(
                     [
                         self.sorted_folder,
-                        self.assign_folder_by_file_type(
-                            filename, self.folders),
+                        self.assign_folder_by_file_type(filename, self.folders),
                         "/",
                         filename,
                     ]
                 )
-                try:
-                    os.rename(old_path, new_path)
-                except FileExistsError:
-                    os.remove(new_path)
-                    os.rename(old_path, new_path)
+
+                shutil.move(old_path, new_path)
 
     def sort_files(self, sort_type=None):
         """Final function for sorting files, run this to sort."""
@@ -271,9 +265,8 @@ class Sorter(object):
             self.sort_to_folder_by_date()
 
 
-#############################################################
-###Remover###################################################
-#############################################################
+# REMOVER -----------------------------------------------------------------------------------
+
 class Remover(object):
     """Contains functions for undoing actions from Sorter class"""
 
@@ -303,12 +296,8 @@ class Remover(object):
                 for filename in os.listdir(folder_path):
                     old_path = "".join([folder_path, "/", filename])
                     new_path = "".join([sorted_folder, filename])
-                    # try block so program doesn't stop if file already exists in directory. Exising file is replaced by file being moved
-                    try:
-                        os.rename(old_path, new_path)
-                    except FileExistsError:
-                        os.remove(new_path)
-                        os.rename(old_path, new_path)
+
+                    shutil.move(old_path, new_path)
 
     def empty_file_type_folders(self, sorted_folder, folders):
         """Moves files out of generated file type folders so that a different sort type can be chosen"""
@@ -318,17 +307,12 @@ class Remover(object):
             for filename in os.listdir(folder_path):
                 old_path = "".join([sorted_folder, folder, "/", filename])
                 new_path = "".join([sorted_folder, filename])
-                # try block so program doesn't stop if file already exists in directory. Exising file is replaced by file being moved
-                try:
-                    os.rename(old_path, new_path)
-                except FileExistsError:
-                    os.remove(new_path)
-                    os.rename(old_path, new_path)
+
+                shutil.move(old_path, new_path)
 
     def delete_date_folders(self, sorted_folder, folders):
         """Deletes folders made by Sorter if sort type == date. Folders must be empty."""
 
-        # try blocks so program doesnt stop if certain folders have been manually deleted
         for folder in folders:
             for month in self.MONTHS:
                 path = "".join([sorted_folder, folder, "/", month])
@@ -349,8 +333,7 @@ class Remover(object):
 
     def delete_file_type_folders(self, sorted_folder, folders):
         """Deletes folders made by Sorter if sort type == file type. Folders must be empty."""
-
-        # try block so program doesnt stop if certain folders have been manually deleted
+        
         for folder in folders:
             path = "".join([sorted_folder, folder])
             try:
