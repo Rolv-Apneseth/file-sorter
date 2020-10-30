@@ -5,8 +5,8 @@ import tkinter as tk
 from datetime import datetime
 from tkinter import filedialog, ttk
 
-# SORTER ---------------------------------------------------------------------------------------
 
+# SORTER ---------------------------------------------------------------------------------------
 
 class Sorter(object):
     """Contains functions for generating sort folders and sorting files into those folders."""
@@ -29,6 +29,7 @@ class Sorter(object):
         # current year, and earliest year for sort (can be changed)
         self.YEAR = self.today.year
         self.earliest = self.today.year
+
         # folder names to be contained in each year folder
         self.MONTHS = [
             "(1) Jan",
@@ -266,7 +267,6 @@ class Sorter(object):
 
 # REMOVER -----------------------------------------------------------------------------------
 
-
 class Remover(object):
     """Contains functions for undoing actions from Sorter class"""
 
@@ -313,7 +313,6 @@ class Remover(object):
     def delete_date_folders(self, sorted_folder, folders):
         """Deletes folders made by Sorter if sort type == date. Folders must be empty."""
 
-        # try blocks so program doesnt stop if certain folders have been manually deleted
         for folder in folders:
             for month in self.MONTHS:
                 path = "".join([sorted_folder, folder, "/", month])
@@ -334,8 +333,7 @@ class Remover(object):
 
     def delete_file_type_folders(self, sorted_folder, folders):
         """Deletes folders made by Sorter if sort type == file type. Folders must be empty."""
-
-        # try block so program doesnt stop if certain folders have been manually deleted
+        
         for folder in folders:
             path = "".join([sorted_folder, folder])
             try:
